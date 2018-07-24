@@ -1,11 +1,9 @@
 /* eslint-disable */
 import ControllerBase from "../base/ControllerBase.js";
 import GraphView from "./GraphView.js";
-import * as d3 from "d3";
 
-class GraphController extends ControllerBase {
+class GraphController {
   constructor(el) {
-    super();
     this.View = new GraphView(el);
   }
 

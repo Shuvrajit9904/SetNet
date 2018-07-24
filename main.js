@@ -1,8 +1,19 @@
 // import "./styles.css";
 
-var action_bar = d3.select("body")
+// import GraphController from "../GraphView/GraphController.js";
+
+
+// var Graph = new GraphController(d3.select("#graph-view").node());
+
+let canvas = d3.select("#graph-container")
+      .append("svg")
+      .attr("width", "75%")
+      .attr("height", "95vh");
+
+var action_bar = d3.select("#graph-container")
     .append("div")
     .attr("class", "action-bar")
+    .text("test")
 
 var centralities = ["Highest degree", "Betweenness Centrality", "Closeness Centrality", "Degree Centrality"]
 var select_numbers = []
@@ -74,9 +85,8 @@ function creategraph(cent_ind, num_ind){
 d3.select("svg").html("")  
 
 var svg = d3.select("svg"),
-    width = svg.attr("width"),
-    height = svg.attr("height");
-
+    width = canvas.node().getBoundingClientRect().width,
+    height = canvas.node().getBoundingClientRect().height;
 // svg.attr("width", "100%").attr("height", "95vh");
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
