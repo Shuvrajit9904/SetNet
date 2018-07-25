@@ -93,15 +93,16 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                     }
 
                 })
-
+                // console.log("selected_node_list", selected_node_list)
                 dataset.links.forEach( d => {
                     let source_id = d.source,
-                        target_id = d.taregt;
+                        target_id = d.target;
+                        // console.log("source_id, target_id", source_id, target_id)
 
-                        if(selected_node_list.includes(Number(source_id)) && selected_node_list.includes(Number(target_id)) ){
+                        if(selected_node_list.includes(source_id) && selected_node_list.includes(target_id) ){
                             Graph.link.push({
                                 source : d.source,
-                                source : d.target
+                                target : d.target
                             })
                         
                         }    
