@@ -73,8 +73,8 @@ def egotwitterprocess(feat_appears_more_than = 9, edges_file = 'data/12831.edges
         feats = df_reqd_feat.loc[index]
         if sum(feats)-node > 0:
             d["id"] = str(node)
-            nodeidlist.append(node)
-            for feat_idx in useful[1:]:
+            nodeidlist.append(node)            
+            for feat_idx in useful[1:]:                
                 d[str(feat_idx)] = str(feats[feat_idx])
             nodes.append(d)
         
