@@ -13,6 +13,7 @@ let canvas = d3.select("#graph-container")
 
 d3.json("data/twitter12831.json", function(error, dataset) {
     if (error) throw error;
+    var filternames = []
     createfilterbox(dataset.features)
     function createfilterbox(filters){
         var filterboxes = []
@@ -40,6 +41,21 @@ d3.json("data/twitter12831.json", function(error, dataset) {
             .attr("value", (d) => {
                 return d.value;
             })
+        .on("click", (d) => {
+            filternames = []
+            var chk_arr = d3.selectAll("input");
+            
+            chk_arr._groups[0].forEach((element) => {
+
+                if(element.checked){
+                    filternames.push(element.value)
+                }
+                
+            });
+
+            console.log(filternames)
+
+        })
  
 
     }

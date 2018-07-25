@@ -20,6 +20,7 @@
 
 // export default {FilterBox};
 
-function FilterBox(){
+export default function FilterBox(){
   console.log("Here")
 }
+
