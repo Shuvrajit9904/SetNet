@@ -1,10 +1,5 @@
 
 
-// import GraphController from "./GraphController.js";
-// import FilterBox from 'filterbox.js';
-
-// var Graph = new GraphController(d3.select("#graph-view").node());
-
 let canvas = d3.select("#graph-container")
       .append("svg")
       .attr("width", "100%")
@@ -14,6 +9,7 @@ let canvas = d3.select("#graph-container")
 d3.json("data/twitter12831.json", function(error, dataset) {
     if (error) throw error;
     var filternames = []
+
     createfilterbox(dataset.features)
     function createfilterbox(filters){
         var filterboxes = []
@@ -23,12 +19,9 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                 name : filters[key]
             })
         }
-        // console.log(filterboxes)
 
-        let forms = d3.select("#filter-box")
-        // .append("form")
-
-        forms.selectAll("input")
+        let forms = d3.select("#filter-box")        
+        .selectAll("input")
         .data(filterboxes)
         .enter()
         .append("div")
@@ -230,26 +223,21 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                     u = sourcetargetgroup(e.source) || "1",
                     v = sourcetargetgroup(e.target) || "1";
               
-              
-              // if(u && v){    
+                           
               if (u != v) {
                 group_map[u].link_count++;
                 group_map[v].link_count++;
               }
-                // if (expand[u]) console.log(e)
+             
                 u = expand[u] ? (node_map[e.source] != undefined ? node_map[e.source] : "1" ) : (node_map[u] != undefined ? node_map[u] : "1" );
                 v = expand[v] ? (node_map[e.target] != undefined ? node_map[e.target] : "1" ) : (node_map[v] != undefined ? node_map[v] : "1");
                 
-                // if(u && v){
+             
                 var i = (u<v ? u+"|"+v : v+"|"+u),
                     l = link_map[i] || (link_map[i] = {source: u, target: v, size:0});      
-                  // console.log("l", l)
+             
                 l.size += 1;
-              // }else{
-              //   console.log("uv", u, v)
-              // }
-            
-              // }  
+               
               
             }
             
@@ -352,8 +340,7 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                             200);
                     // return 250;
                     })
-                )    
-                    // .links(net.links)
+                    )                        
                     .force("center", d3.forceCenter(width / 2, height / 2))    
                     .force("xAxis",d3.forceX((d) => {
                     // console.log(d);
