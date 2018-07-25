@@ -23,7 +23,7 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                 name : filters[key]
             })
         }
-        console.log(filterboxes)
+        // console.log(filterboxes)
 
         let forms = d3.select("#filter-box")
         // .append("form")
@@ -53,9 +53,63 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                 
             });
 
-            console.log(filternames)
-
+            console.log(dataset)
+            GraphController(filternames)
         })
+
+        function GraphController(filters){
+
+            Graph = {
+                node : [],
+                link : []
+            }
+
+            let selected_node_list = [];
+            let group_details_map = {}
+
+            if(filters.length > 0){
+                dataset.nodes.forEach( d => {
+                    let membership_array = []
+                    let group_dict = {}
+
+                    filters.forEach( (d1, i) => {
+                        if(d[Number(d1)] == 1){
+                            membership_array.push(1)                            
+                        }else{
+                            membership_array.push(0)
+                        }
+                    })
+
+                    var group_id_bin = parseInt(membership_array.join(''), 2)
+                    var group_id = group_id_bin.toString();
+
+                    if (group_id_bin){
+                        selected_node_list.push(d.id)
+                        Graph.node.push({
+                          id: d.id ,
+                          group: group_id,
+                          name : d.id,                          
+                        })
+                    }
+
+                })
+
+                dataset.links.forEach( d => {
+                    let source_id = d.source,
+                        target_id = d.taregt;
+
+                        if(selected_node_list.includes(Number(source_id)) && selected_node_list.includes(Number(target_id)) ){
+                            Graph.link.push({
+                                source : d.source,
+                                source : d.target
+                            })
+                        
+                        }    
+                })
+            }
+            
+            console.log("graph", Graph)
+        }
  
 
     }
