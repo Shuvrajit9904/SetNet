@@ -1,5 +1,4 @@
 
-
 let canvas = d3.select("#graph-container")
       .append("svg")
       .attr("width", "100%")
@@ -314,6 +313,7 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                 net = network(data, net, expand);
                 console.log("what:", net)
                 
+                
                 var color = d3.scaleOrdinal(d3.schemeCategory10);
                 
                 simulation = d3.forceSimulation()
@@ -419,6 +419,8 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                             
                             init();
                             })
+                    .on('mouseover', fade(0.1))
+                    .on('mouseout', fade(1))
                     .call(d3.drag()
                         .on("start", dragstarted)
                         .on("drag", dragged));                        
@@ -463,6 +465,43 @@ d3.json("data/twitter12831.json", function(error, dataset) {
                     d.fx = null;
                     d.fy = null;
                 }
+                
+                const linkedByIndex = {};
+                
+                net.links.forEach(d => {
+                    // console.log("d", d)
+                    var s_id = d.source.id ? d.source.id : d.source.group
+                    var t_id = d.target.id ? d.target.id : d.target.group
+                    
+                    linkedByIndex[s_id + "|" +t_id] = 1;
+                    linkedByIndex[t_id + "|" +s_id] = 1;
+                    // console.log("sid, tid", s_id, t_id)
+                });
+
+                function isConnected(a, b) {
+                    var s_id = a.id ? a.id : a.group
+                    var t_id = b.id ? b.id : b.group
+
+                    console.log("a,b", a, b)
+
+                    return linkedByIndex[s_id + "|" +t_id] || linkedByIndex[t_id + "|" +s_id] || s_id == t_id;
+                  }
+
+                function fade(opacity) {
+                    return d => {
+                      node.style('stroke-opacity', function (o) {
+                        const thisOpacity = isConnected(d, o) ? 1 : opacity;
+                        this.setAttribute('fill-opacity', thisOpacity);
+                        return thisOpacity;
+                      });
+
+                    //   var s_id = o.source.id ? o.source.id : o.source.group
+                    //   var t_id = o.target.id ? o.target.id : o.target.group      
+                
+                      link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+                      link.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));
+                    };
+                  }
                 
                 }
 
